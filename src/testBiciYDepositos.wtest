@@ -1,0 +1,59 @@
+import bicis.*
+import deposito.*
+
+test "BICICLETAS" {
+	const farito = new Farolito()
+	const canasta = new Canasto(volumen = 8)
+	const morral1 = new Morral( largo = 21, ojoGato = true)
+	const morral2 = new Morral( largo = 6, ojoGato = false)
+	const bici = new Bicicleta(rodado = 28, largo = 150, marca = "olmo", accesorios = [farito])
+	const bici1 = new Bicicleta(rodado = 26, largo = 110, marca = "legnano", accesorios = [farito, canasta, morral1])
+	const bici2 = new Bicicleta(rodado = 20, largo = 90, marca = "legnano", accesorios = [morral2])
+	
+	
+	assert.equals(85, bici.altura()) 
+	assert.equals(34, bici.velocidadCrucero())
+	assert.equals(14.5, bici.peso())
+	assert.equals(0, bici.carga())
+	assert.equals(true, bici.tieneLuz())
+	assert.equals(1, bici.accesoriosLivianos())
+	
+	assert.equals(80, bici1.altura()) 
+	assert.equals(28, bici1.velocidadCrucero())
+	assert.equals(15.5, bici1.peso())
+	assert.equals(23, bici1.carga())
+	assert.equals(true, bici1.tieneLuz())
+	assert.equals(2, bici1.accesoriosLivianos())
+	
+	assert.equals(65, bici2.altura()) 
+	assert.equals(22, bici2.velocidadCrucero())
+	assert.equals(11.2, bici2.peso())
+	assert.equals(2, bici2.carga())
+	assert.equals(false, bici2.tieneLuz())
+	assert.equals(0, bici2.accesoriosLivianos())
+}
+
+
+test "DEPOSITOS" {
+	const farito = new Farolito()
+	const canasta = new Canasto( volumen = 8)
+	const morral1 = new Morral( largo = 21, ojoGato = true)
+	const morral2 = new Morral( largo = 6, ojoGato = false)
+	const bici = new Bicicleta( rodado = 28, largo = 150, marca = "olmo", accesorios = [farito] )
+	const bici1 = new Bicicleta( rodado = 26, largo = 110, marca = "legnano", accesorios = [farito, canasta, morral1] )
+	const bici2 = new Bicicleta( rodado = 20, largo = 90, marca = "legnano", accesorios = [morral2] )
+	const bici6 = new Bicicleta( rodado = 28, largo = 181, marca = "aurora", accesorios = [farito] )
+	const bici7 = new Bicicleta( rodado = 28, largo = 153, marca = "olmo")
+	
+	const depo = new Deposito() 
+	depo.agregarLista([bici, bici1, bici2])
+
+	assert.equals( [bici, bici1], depo.bicisRapidas() )
+	assert.equals( #{"legnano", "olmo"}, depo.marcas() )
+	assert.equals( false, depo.esNocturno() )
+	assert.equals( true, depo.cargaParaLlevar(10) )
+	assert.equals( false, depo.cargaParaLlevar(50) )
+	assert.equals( 0, depo.bicisSinAccesorios( ))
+	assert.equals( true, depo.bicisCompanieras(bici7) )
+	assert.equals( false, depo.bicisCompanieras(bici6) )
+}
