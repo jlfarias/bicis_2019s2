@@ -1,4 +1,5 @@
 import bicis.*
+import accesorios.*
 
 class Deposito {
 	var property bicicletas = []
